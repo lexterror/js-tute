@@ -2283,12 +2283,14 @@ background: url(tavern.jpg) no-repeat center center fixed;
    }
 	</style>
 </head>
-<body>
+<body onload="loadcookies()">
 <div id="settingsbutton" style="float:right;right:0;top:0;z-index:9999999999;"><button onclick="showsettings()">settings</button></div>
-<div id="settings" style="top: 50px;right:0;width:100px;height:280px;position:absolute;float:right;"><img src="wallpapers/wood2.jpg" width="100" height="70" onclick="changewall('wallpapers/wood2.jpg')">
-<img src="wallpapers/wood.jpg" width="100" height="70" onclick="changewall('wallpapers/wood.jpg')">
-<img src="wallpapers/greenfelt.jpg" width="100" height="70" onclick="changewall('wallpapers/greenfelt.jpg')">
-<img src="wallpapers/redfelt.jpg" width="100" height="70" onclick="changewall('wallpapers/redfelt.jpg')">
+<div id="settings" style="top: 50px;right:0;width:100px;height:280px;position:absolute;float:right;">
+<input type="checkbox" id="sound" name="sound" checked onchange="checksound()"><label style="color:#fff;">Sound</label>
+<img src="wallpapers/wood2.jpg" width="100" height="70" onclick="changewall('wallpapers/wood2.jpg', '1')">
+<img src="wallpapers/wood.jpg" width="100" height="70" onclick="changewall('wallpapers/wood.jpg', '2')">
+<img src="wallpapers/greenfelt.jpg" width="100" height="70" onclick="changewall('wallpapers/greenfelt.jpg', '3')">
+<img src="wallpapers/redfelt.jpg" width="100" height="70" onclick="changewall('wallpapers/redfelt.jpg', '4')">
 </div>
 
 	<div id="container" align="center" style="font-size: x-large;">
@@ -2320,11 +2322,77 @@ if (bool % 2 != 0)
 bool++;
 }
 
-function changewall(wall) {
+function changewall(wall, number) {
 document.getElementById("svgis").style.backgroundImage = "url(" + wall + ")";
+createCookie('wallpaper',number,7);
 }
 
+        function createCookie(cookieName,cookieValue,daysToExpire)
+        {
+          var date = new Date();
+          date.setTime(date.getTime()+(daysToExpire*24*60*60*1000));
+          document.cookie = cookieName + "=" + cookieValue + "; expires=" + date.toGMTString();
+        }
+		function accessCookie(cookieName)
+        {
+          var name = cookieName + "=";
+          var allCookieArray = document.cookie.split(';');
+          for(var i=0; i<allCookieArray.length; i++)
+          {
+            var temp = allCookieArray[i].trim();
+            if (temp.indexOf(name)==0)
+            return temp.substring(name.length,temp.length);
+       	  }
+        	return "";
+        }
 
+function checksound() {
+    var j = document.getElementById("sound");
+    if (j.checked == true)
+    {
+    createCookie('sound','1',7);
+    audio = new Audio('sounds/CARD.WAV');
+    audio2 = new Audio('sounds/WON.WAV');    
+    }
+    if (j.checked == false)
+    {
+    createCookie('sound','2',7);   
+    audio = new Audio('');
+    audio2 = new Audio('');
+    }
+    
+}
+function loadcookies() {
+var z = accessCookie ('sound');
+
+if (z!="")
+{
+    if (z == '1')
+    {
+    document.getElementById("sound").checked = true;
+    audio = new Audio('sounds/CARD.WAV');
+    audio2 = new Audio('sounds/WON.WAV'); 
+ }   
+    if (z == '2')
+    {
+    document.getElementById("sound").checked = false;
+    audio = new Audio('');
+    audio2 = new Audio('');    
+    }
+}
+
+var x = accessCookie('wallpaper');
+if (x!="") {
+    if (x == '1')
+    document.getElementById("svgis").style.backgroundImage = "url('wallpapers/wood2.jpg')";
+    if (x == '2')
+    document.getElementById("svgis").style.backgroundImage = "url('wallpapers/wood.jpg')";
+    if (x == '3')
+    document.getElementById("svgis").style.backgroundImage = "url('wallpapers/greenfelt.jpg')";
+    if (x == '4')
+    document.getElementById("svgis").style.backgroundImage = "url('wallpapers/redfelt.jpg')";
+}
+}
 </script>
 </body>
 </html>
