@@ -341,10 +341,12 @@ const TuteGame =
 
         TuteGame.shuffleDeck();
 
+
     },
 
     shuffleDeck: function()
     {
+
         for (let i = TuteGame.deck.length - 1; i > 0; i--)
         {
             const j = Math.floor(Math.random() * (i + 1));
@@ -573,6 +575,7 @@ const TuteGame =
 
     dealCardToPlayer: function(playerCards)
     {
+        audio.play();
         const c1 = this.deck.shift();
 
         playerCards.push(c1);
@@ -737,14 +740,25 @@ const TuteGame =
                 let points = key == this.pinta.suit.name ? 40 : 20;
                 
                 if (value == "1")
+                {
                     player1Points += points;
+              
+                    
+                }
+                  
     
                 if (value == "2")
+                {
                     player2Points += points;
+                   
+                }
             }
             
             if (player1Points > player2Points)
+            {
                 this.player1Games ++;
+                audio2.play();
+            }
     
             else if (player1Points < player2Points)
                 this.player2Games ++;
@@ -1125,6 +1139,7 @@ const TuteGameUI =
 
     dealNewCards: function()
     {
+   
         if (TuteGame.deck.length == 0)
             return;
 
@@ -1467,6 +1482,7 @@ const TuteGameUI =
 
     completeGame(player1WonLastTrick)
     {
+       
 		HumanPlayer.clearSelection();
 		
         let player1Wins = TuteGame.player1Baza.reverse();
@@ -1866,15 +1882,19 @@ $(() =>
 	
 	}
 }
-
+ var audio = new Audio('sounds/CARD.WAV');
+ var audio2 = new Audio('sounds/WON.WAV');
  const TuteController =
 {
+   
+   
     SEPARATION: 40,
 
 	getDeckCardMove: function(cards)
     {
+
         const m1 = new MultiAnimator();
-        
+       
         for (let card of cards)
         {
             m1.add(new MoveCardAnimator(card, 20 + CardModel.WIDTH / 2, GameUI.BOARD_HEIGHT / 2, 0));
@@ -1885,36 +1905,43 @@ $(() =>
 
     getPintaMovement: function(card)
     {
+ 
         return new MoveCardAnimator(card, 80 + CardModel.HEIGHT / 2, GameUI.BOARD_HEIGHT / 2, 90);
     },
 
     getPlayer1PintaCardThrow: function(card)
     {
+      
         return new ThrowCardAnimator(card, 40 + 3 * CardModel.HEIGHT / 2, GameUI.BOARD_HEIGHT / 2 + CardModel.HEIGHT, 0);
     },
     
     getPlayer2PintaCardThrow: function(card)
     {
+   
         return new ThrowCardAnimator(card, 40 + 3 * CardModel.HEIGHT / 2, GameUI.BOARD_HEIGHT / 2 - CardModel.HEIGHT, 0);
     },
     
     getPlayer1CardThrow: function(card)
     {
+   
         return new ThrowCardAnimator(card, GameUI.BOARD_WIDTH / 2, GameUI.BOARD_HEIGHT - CardModel.HEIGHT, 0);
     },
 
     getPlayer2PlayerCardThrow: function(card)
     {
+     
         return new ThrowCardAnimator(card, GameUI.BOARD_WIDTH / 2, CardModel.HEIGHT, 0);
     },
 
     getCenterCardThrow: function(card)
     {
+        audio.play();
         return new ThrowCardAnimator(card, GameUI.BOARD_WIDTH / 2, GameUI.BOARD_HEIGHT / 2, 0);
     },
     
     getPlayer1CardMovement: function(card, i, numCards)
     {
+ 
         const centering = - (numCards - 1.) / 2 + i;
         
         return new MoveCardAnimator(card,
@@ -1925,6 +1952,7 @@ $(() =>
 
     getPlayer2CardMovement: function(card, i, numCards)
     {
+
         const centering = - (numCards - 1.) / 2 + i;
         
         return new MoveCardAnimator(card,
@@ -1935,12 +1963,14 @@ $(() =>
 
     relocatePlayer1Cards: function(player1)
     {
+ 
         const m1 = new MultiAnimator();
         
         let i = 0;
         
         for (let card of player1)
         {
+            
             m1.add(new MoveToFrontAnimator(card));
             
             m1.add(this.getPlayer1CardMovement(card, i ++, player1.length));
@@ -1951,12 +1981,15 @@ $(() =>
 
     relocatePlayer2Cards: function(player2)
     {
+
         const m1 = new MultiAnimator();
         
         let i = 0;
         
         for (let card of player2)
         {
+            
+ 
             m1.add(new MoveToFrontAnimator(card));
             
             m1.add(this.getPlayer2CardMovement(card, i ++, player2.length));
@@ -1968,6 +2001,7 @@ $(() =>
 
     getPlayer1WinDeckMovement: function(card1, card2)
     {
+ 
         const m1 = new MultiAnimator();
         
         m1.add(new ThrowCardAnimator(card1, GameUI.BOARD_WIDTH, GameUI.BOARD_HEIGHT - CardModel.HEIGHT, 0));
@@ -1981,6 +2015,7 @@ $(() =>
 
     getPlayer2WinDeckMovement: function(card1, card2)
     {
+       
         const m1 = new MultiAnimator();
         
         m1.add(new ThrowCardAnimator(card1, GameUI.BOARD_WIDTH, CardModel.HEIGHT, 0));
@@ -1994,10 +2029,12 @@ $(() =>
 
     getCenterWinCardThrow: function(cards)
     {
+
         const m1 = new MultiAnimator();
         
         for (let card of cards)
         {
+      
             m1.add(new MoveCardAnimator(card, 
                     card.x - GameUI.BOARD_WIDTH / 2, 
                     card.y, card.rotation));
@@ -2008,10 +2045,12 @@ $(() =>
 
     getCenterCardMove: function(cards)
     {
+
         const m1 = new MultiAnimator();
         
         for (let card of cards)
         {
+    
             m1.add(new MoveCardAnimator(card, GameUI.BOARD_WIDTH / 2, GameUI.BOARD_HEIGHT / 2, 0));
         }
                 
