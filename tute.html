@@ -1,8 +1,25 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" id="html">
 <head>
 	<meta charset="utf-8"/>
 	<script src="jquery.js"></script>
+<link rel="apple-touch-icon" sizes="57x57" href="icons/apple-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="icons/apple-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="icons/apple-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="icons/apple-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="icons/apple-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="icons/apple-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="icons/apple-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="icons/apple-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="icons/apple-icon-180x180.png">
+<link rel="icon" type="imageicons/png" sizes="192x192"  href="icons/android-icon-192x192.png">
+<link rel="icon" type="imageicons/png" sizes="32x32" href="icons/favicon-32x32.png">
+<link rel="icon" type="imageicons/png" sizes="96x96" href="icons/favicon-96x96.png">
+<link rel="icon" type="imageicons/png" sizes="16x16" href="icons/favicon-16x16.png">
+<link rel="manifest" href="icons/manifest.json">
+<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="msapplication-TileImage" content="icons/ms-icon-144x144.png">
+<meta name="theme-color" content="#ffffff">
     <script>
 
  const Suit = [
@@ -2221,12 +2238,22 @@ background: url(tavern.jpg) no-repeat center center fixed;
   -o-background-size: cover;
   background-size: cover;
         }	
-
+   #settings {
+   z-index: 9999999999;
+   display: none;
+   }
 	</style>
 </head>
 <body>
+<div id="settingsbutton" style="float:right;right:0;top:0;z-index:9999999999;"><button onclick="showsettings()">settings</button></div>
+<div id="settings" style="top: 50px;right:0;width:100px;height:280px;position:absolute;float:right;"><img src="wallpapers/wood2.jpg" width="100" height="70" onclick="changewall('wallpapers/wood2.jpg')">
+<img src="wallpapers/wood.jpg" width="100" height="70" onclick="changewall('wallpapers/wood.jpg')">
+<img src="wallpapers/greenfelt.jpg" width="100" height="70" onclick="changewall('wallpapers/greenfelt.jpg')">
+<img src="wallpapers/redfelt.jpg" width="100" height="70" onclick="changewall('wallpapers/redfelt.jpg')">
+</div>
+
 	<div id="container" align="center" style="font-size: x-large;">
-		<svg style="background-image:url(wood.jpg);background-position: center; background-size: cover; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;border-radius: 20px;" viewbox="0 0 700 700">
+		<svg id="svgis" style="background-image:url(wallpapers/wood2.jpg);background-position: center; background-size: cover; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;border-radius: 20px;" viewbox="0 0 700 700">
 			<defs id="svg-defs" style="">  
 			  <image id="texture" href="spanish-deck.png" x="0" y="0" width="1808px" height="826px"/>
 			</defs>
@@ -2239,5 +2266,26 @@ background: url(tavern.jpg) no-repeat center center fixed;
 			<text id="message"        fill="black"                        x="68%" y="50%" style="text-shadow:0 0 5px #ffffff;"></text>
 		</svg>
 	</div>
+<script>
+var bool = 0;
+function showsettings() {
+if (bool % 2 == 0)
+{
+    document.getElementById("settings").style.display = "block";
+    
+}
+if (bool % 2 != 0)
+{
+    document.getElementById("settings").style.display = "none";
+}
+bool++;
+}
+
+function changewall(wall) {
+document.getElementById("svgis").style.backgroundImage = "url(" + wall + ")";
+}
+
+
+</script>
 </body>
 </html>
