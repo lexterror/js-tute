@@ -1754,6 +1754,8 @@ $(() =>
 	}
 }
 
+
+
  class MoveToBackAnimator
 {
 	constructor(card)
@@ -1884,20 +1886,23 @@ $(() =>
 }
  var audio = new Audio('sounds/CARD.WAV');
  var audio2 = new Audio('sounds/WON.WAV');
+ var myyoffset = 100;
+ var myxoffset = 0;
+ var myplayer1offset = 80;
+ var myplayer2offset = -35;
+
+ 
  const TuteController =
 {
-   
-   
     SEPARATION: 40,
 
 	getDeckCardMove: function(cards)
     {
-
         const m1 = new MultiAnimator();
-       
+        
         for (let card of cards)
         {
-            m1.add(new MoveCardAnimator(card, 20 + CardModel.WIDTH / 2, GameUI.BOARD_HEIGHT / 2, 0));
+            m1.add(new MoveCardAnimator(card, 40 + CardModel.WIDTH / 2, myyoffset -0 + GameUI.BOARD_HEIGHT / 2, 0));
         }
                 
         return m1;
@@ -1905,72 +1910,63 @@ $(() =>
 
     getPintaMovement: function(card)
     {
- 
-        return new MoveCardAnimator(card, 80 + CardModel.HEIGHT / 2, GameUI.BOARD_HEIGHT / 2, 90);
+        return new MoveCardAnimator(card, 100 + CardModel.HEIGHT / 2, myyoffset + 10 + GameUI.BOARD_HEIGHT / 2, 90);
     },
 
     getPlayer1PintaCardThrow: function(card)
     {
-      
-        return new ThrowCardAnimator(card, 40 + 3 * CardModel.HEIGHT / 2, GameUI.BOARD_HEIGHT / 2 + CardModel.HEIGHT, 0);
+        return new ThrowCardAnimator(card, 40 + 3 * CardModel.HEIGHT / 2, myyoffset +  GameUI.BOARD_HEIGHT / 2 + CardModel.HEIGHT, 0);
     },
     
     getPlayer2PintaCardThrow: function(card)
     {
-   
-        return new ThrowCardAnimator(card, 40 + 3 * CardModel.HEIGHT / 2, GameUI.BOARD_HEIGHT / 2 - CardModel.HEIGHT, 0);
+        return new ThrowCardAnimator(card, 40 + 3 * CardModel.HEIGHT / 2, myyoffset +  GameUI.BOARD_HEIGHT / 2 - CardModel.HEIGHT, 0);
     },
     
     getPlayer1CardThrow: function(card)
     {
-   
-        return new ThrowCardAnimator(card, GameUI.BOARD_WIDTH / 2, GameUI.BOARD_HEIGHT - CardModel.HEIGHT, 0);
+        return new ThrowCardAnimator(card, myxoffset +  GameUI.BOARD_WIDTH / 2, myyoffset +  GameUI.BOARD_HEIGHT - CardModel.HEIGHT, 0);
     },
 
     getPlayer2PlayerCardThrow: function(card)
     {
-     
-        return new ThrowCardAnimator(card, GameUI.BOARD_WIDTH / 2, CardModel.HEIGHT, 0);
+        return new ThrowCardAnimator(card, myxoffset +  GameUI.BOARD_WIDTH / 2, myyoffset + CardModel.HEIGHT, 0);
     },
 
     getCenterCardThrow: function(card)
     {
         audio.play();
-        return new ThrowCardAnimator(card, GameUI.BOARD_WIDTH / 2, GameUI.BOARD_HEIGHT / 2, 0);
+        return new ThrowCardAnimator(card, myxoffset +  GameUI.BOARD_WIDTH / 2, 130 + GameUI.BOARD_HEIGHT / 2, 0);
     },
     
     getPlayer1CardMovement: function(card, i, numCards)
     {
- 
         const centering = - (numCards - 1.) / 2 + i;
         
-        return new MoveCardAnimator(card,
-                GameUI.BOARD_WIDTH / 2 + TuteController.SEPARATION * centering, 
-                GameUI.BOARD_HEIGHT - (CardModel.HEIGHT / 2 + 30 + (30 * Math.cos(Math.PI / 8 * centering))), 
+        return new MoveCardAnimator(card, myxoffset + 
+                GameUI.BOARD_WIDTH / 2 + TuteController.SEPARATION * centering, myplayer1offset + 
+                 myyoffset + GameUI.BOARD_HEIGHT - (CardModel.HEIGHT / 2 + 30 + (30 * Math.cos(Math.PI / 8 * centering))), 
                 5 * centering);
     },
 
     getPlayer2CardMovement: function(card, i, numCards)
     {
-
         const centering = - (numCards - 1.) / 2 + i;
         
-        return new MoveCardAnimator(card,
-                GameUI.BOARD_WIDTH / 2 - TuteController.SEPARATION * centering, 
-                CardModel.HEIGHT / 2 + 30 + (30 * Math.cos(Math.PI / 8 * centering)), 
+        return new MoveCardAnimator(card, myxoffset +
+                GameUI.BOARD_WIDTH / 2 - TuteController.SEPARATION * centering, myplayer2offset +  
+                 myyoffset + CardModel.HEIGHT / 2 + 30 + (30 * Math.cos(Math.PI / 8 * centering)), 
                 180 + 5 * centering);
     },
 
     relocatePlayer1Cards: function(player1)
     {
- 
         const m1 = new MultiAnimator();
         
         let i = 0;
         
         for (let card of player1)
         {
-            
             m1.add(new MoveToFrontAnimator(card));
             
             m1.add(this.getPlayer1CardMovement(card, i ++, player1.length));
@@ -1981,15 +1977,12 @@ $(() =>
 
     relocatePlayer2Cards: function(player2)
     {
-
         const m1 = new MultiAnimator();
         
         let i = 0;
         
         for (let card of player2)
         {
-            
- 
             m1.add(new MoveToFrontAnimator(card));
             
             m1.add(this.getPlayer2CardMovement(card, i ++, player2.length));
@@ -2001,11 +1994,10 @@ $(() =>
 
     getPlayer1WinDeckMovement: function(card1, card2)
     {
- 
         const m1 = new MultiAnimator();
         
-        m1.add(new ThrowCardAnimator(card1, GameUI.BOARD_WIDTH, GameUI.BOARD_HEIGHT - CardModel.HEIGHT, 0));
-        m1.add(new ThrowCardAnimator(card2, GameUI.BOARD_WIDTH, GameUI.BOARD_HEIGHT - CardModel.HEIGHT, 0));
+        m1.add(new ThrowCardAnimator(card1, GameUI.BOARD_WIDTH - 150 , GameUI.BOARD_HEIGHT - CardModel.HEIGHT + myyoffset + 20, 0));
+        m1.add(new ThrowCardAnimator(card2, GameUI.BOARD_WIDTH - 150, GameUI.BOARD_HEIGHT - CardModel.HEIGHT + myyoffset + 20, 0));
         
         m1.add(new ReverseAnimator(card1, false));
         m1.add(new ReverseAnimator(card2, false));
@@ -2015,11 +2007,10 @@ $(() =>
 
     getPlayer2WinDeckMovement: function(card1, card2)
     {
-       
         const m1 = new MultiAnimator();
         
-        m1.add(new ThrowCardAnimator(card1, GameUI.BOARD_WIDTH, CardModel.HEIGHT, 0));
-        m1.add(new ThrowCardAnimator(card2, GameUI.BOARD_WIDTH, CardModel.HEIGHT, 0));
+        m1.add(new ThrowCardAnimator(card1, GameUI.BOARD_WIDTH - 150,  CardModel.HEIGHT - 20, 0));
+        m1.add(new ThrowCardAnimator(card2, GameUI.BOARD_WIDTH - 150,  CardModel.HEIGHT - 20, 0));
         
         m1.add(new ReverseAnimator(card1, false));
         m1.add(new ReverseAnimator(card2, false));
@@ -2029,12 +2020,10 @@ $(() =>
 
     getCenterWinCardThrow: function(cards)
     {
-
         const m1 = new MultiAnimator();
         
         for (let card of cards)
         {
-      
             m1.add(new MoveCardAnimator(card, 
                     card.x - GameUI.BOARD_WIDTH / 2, 
                     card.y, card.rotation));
@@ -2045,12 +2034,10 @@ $(() =>
 
     getCenterCardMove: function(cards)
     {
-
         const m1 = new MultiAnimator();
         
         for (let card of cards)
         {
-    
             m1.add(new MoveCardAnimator(card, GameUI.BOARD_WIDTH / 2, GameUI.BOARD_HEIGHT / 2, 0));
         }
                 
@@ -2061,8 +2048,8 @@ $(() =>
 
  const GameUI =
 {
-    BOARD_WIDTH: 700,
-    BOARD_HEIGHT: 700,
+    BOARD_WIDTH: 1024,
+    BOARD_HEIGHT: 576,
 
     cards: [],
 
@@ -2153,11 +2140,14 @@ $(() =>
         const h = window.innerHeight
             || document.documentElement.clientHeight
             || document.body.clientHeight;
+            
+        const myw = window.innerWidth - 20; 
+        const myh =  window.innerHeight - 20;
 
-        const containerSize = Math.min(h, w) - 20;
+        const containerSize = Math.min(h, w);
 
-        $('svg').css({'width': containerSize + "px",
-                      'height': containerSize + "px"});
+        $('svg').css({'width': "1100" + "px",
+                      'height': "850" + "px"});
     },
 
     repaint: function()
@@ -2270,12 +2260,14 @@ $(() =>
     </script>
 	<title>Tute</title>
 	<style>
-    html { 
-background: url(tavern.jpg) no-repeat center center fixed; 
+
+  body { 
+  background: url('wallpapers/wood2.jpg') no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  min-height: 850px;
         }	
    #settings {
    z-index: 9999999999;
@@ -2283,7 +2275,7 @@ background: url(tavern.jpg) no-repeat center center fixed;
    }
 	</style>
 </head>
-<body onload="loadcookies()">
+<body id="body" onload="loadcookies()">
 <div id="settingsbutton" style="float:right;right:0;top:0;z-index:9999999999;"><button onclick="showsettings()">settings</button></div>
 <div id="settings" style="top: 50px;right:0;width:100px;height:280px;position:absolute;float:right;">
 <input type="checkbox" id="sound" name="sound" checked onchange="checksound()"><label style="color:#fff;">Sound</label>
@@ -2293,12 +2285,12 @@ background: url(tavern.jpg) no-repeat center center fixed;
 <img src="wallpapers/redfelt.jpg" width="100" height="70" onclick="changewall('wallpapers/redfelt.jpg', '4')">
 </div>
 
-	<div id="container" align="center" style="font-size: x-large;">
-		<svg id="svgis" style="background-image:url(wallpapers/wood2.jpg);background-position: center; background-size: cover; position: absolute; margin-left: auto; margin-right: auto; left: 0; right: 0;border-radius: 20px;" viewbox="0 0 700 700">
+	<div id="container" style="font-size: x-large;margin: 0 auto;left: 0; right: 0;">
+		<svg style="position: absolute;width:1100px;height:576px;left: 0; right: 0;margin: 0 auto;" width="1100" height="576">
 			<defs id="svg-defs" style="">  
 			  <image id="texture" href="spanish-deck.png" x="0" y="0" width="1808px" height="826px"/>
 			</defs>
-			<g id="svg-canvas">
+			<g id="svg-canvas" style="">
 			</g>
 			<text id="player2Message" fill="black"  text-anchor="middle" x="50%" y="25" style="text-shadow:0 0 5px #ffffff;"></text>
 			<text id="player1Message" fill="black"   text-anchor="middle" x="50%" y="675"  style="text-shadow:0 0 5px #ffffff;"></text>
@@ -2323,7 +2315,7 @@ bool++;
 }
 
 function changewall(wall, number) {
-document.getElementById("svgis").style.backgroundImage = "url(" + wall + ")";
+document.getElementById("body").style.backgroundImage = "url(" + wall + ")";
 createCookie('wallpaper',number,7);
 }
 
@@ -2384,13 +2376,13 @@ if (z!="")
 var x = accessCookie('wallpaper');
 if (x!="") {
     if (x == '1')
-    document.getElementById("svgis").style.backgroundImage = "url('wallpapers/wood2.jpg')";
+    document.getElementById("body").style.backgroundImage = "url('wallpapers/wood2.jpg')";
     if (x == '2')
-    document.getElementById("svgis").style.backgroundImage = "url('wallpapers/wood.jpg')";
+    document.getElementById("body").style.backgroundImage = "url('wallpapers/wood.jpg')";
     if (x == '3')
-    document.getElementById("svgis").style.backgroundImage = "url('wallpapers/greenfelt.jpg')";
+    document.getElementById("body").style.backgroundImage = "url('wallpapers/greenfelt.jpg')";
     if (x == '4')
-    document.getElementById("svgis").style.backgroundImage = "url('wallpapers/redfelt.jpg')";
+    document.getElementById("body").style.backgroundImage = "url('wallpapers/redfelt.jpg')";
 }
 }
 </script>
