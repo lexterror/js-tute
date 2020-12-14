@@ -1996,8 +1996,8 @@ $(() =>
     {
         const m1 = new MultiAnimator();
         
-        m1.add(new ThrowCardAnimator(card1, GameUI.BOARD_WIDTH - 150 , GameUI.BOARD_HEIGHT - CardModel.HEIGHT + myyoffset + 20, 0));
-        m1.add(new ThrowCardAnimator(card2, GameUI.BOARD_WIDTH - 150, GameUI.BOARD_HEIGHT - CardModel.HEIGHT + myyoffset + 20, 0));
+        m1.add(new ThrowCardAnimator(card1, GameUI.BOARD_WIDTH - 100 , GameUI.BOARD_HEIGHT - CardModel.HEIGHT + myyoffset + 100, 0));
+        m1.add(new ThrowCardAnimator(card2, GameUI.BOARD_WIDTH - 100, GameUI.BOARD_HEIGHT - CardModel.HEIGHT + myyoffset + 100, 0));
         
         m1.add(new ReverseAnimator(card1, false));
         m1.add(new ReverseAnimator(card2, false));
@@ -2009,8 +2009,8 @@ $(() =>
     {
         const m1 = new MultiAnimator();
         
-        m1.add(new ThrowCardAnimator(card1, GameUI.BOARD_WIDTH - 150,  CardModel.HEIGHT - 20, 0));
-        m1.add(new ThrowCardAnimator(card2, GameUI.BOARD_WIDTH - 150,  CardModel.HEIGHT - 20, 0));
+        m1.add(new ThrowCardAnimator(card1, GameUI.BOARD_WIDTH - 150,  CardModel.HEIGHT + 50, 0));
+        m1.add(new ThrowCardAnimator(card2, GameUI.BOARD_WIDTH - 150,  CardModel.HEIGHT + 50, 0));
         
         m1.add(new ReverseAnimator(card1, false));
         m1.add(new ReverseAnimator(card2, false));
