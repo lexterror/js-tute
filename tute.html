@@ -2262,7 +2262,7 @@ $(() =>
 	<style>
 
   body { 
-  background: url('wallpapers/wood2.jpg') no-repeat center center fixed; 
+  background: url('') no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -2316,74 +2316,76 @@ bool++;
 
 function changewall(wall, number) {
 document.getElementById("body").style.backgroundImage = "url(" + wall + ")";
-createCookie('wallpaper',number,7);
+setLocalStorage("wallpaper", number);
 }
 
-        function createCookie(cookieName,cookieValue,daysToExpire)
-        {
-          var date = new Date();
-          date.setTime(date.getTime()+(daysToExpire*24*60*60*1000));
-          document.cookie = cookieName + "=" + cookieValue + "; expires=" + date.toGMTString();
-        }
-		function accessCookie(cookieName)
-        {
-          var name = cookieName + "=";
-          var allCookieArray = document.cookie.split(';');
-          for(var i=0; i<allCookieArray.length; i++)
-          {
-            var temp = allCookieArray[i].trim();
-            if (temp.indexOf(name)==0)
-            return temp.substring(name.length,temp.length);
-       	  }
-        	return "";
-        }
+    
 
 function checksound() {
     var j = document.getElementById("sound");
     if (j.checked == true)
     {
-    createCookie('sound','1',7);
+    setLocalStorage("sound", 1);
     audio = new Audio('sounds/CARD.WAV');
     audio2 = new Audio('sounds/WON.WAV');    
     }
     if (j.checked == false)
     {
-    createCookie('sound','2',7);   
+    setLocalStorage("sound", 0);   
     audio = new Audio('');
     audio2 = new Audio('');
     }
     
 }
-function loadcookies() {
-var z = accessCookie ('sound');
 
-if (z!="")
-{
-    if (z == '1')
+
+function getLocalStorage (key) {
+  return localStorage.getItem(key);
+}
+
+function setLocalStorage (key, value) {
+  return localStorage.setItem(key, value);
+}
+
+function loadcookies() {
+
+var z = 0;
+var sounds = getLocalStorage("sound");
+  if (sounds === null) {  // first time
+     z = 1;
+  }
+  else z = sounds;
+  
+  
+    if (z == 1)
     {
     document.getElementById("sound").checked = true;
     audio = new Audio('sounds/CARD.WAV');
     audio2 = new Audio('sounds/WON.WAV'); 
- }   
-    if (z == '2')
+    }   
+    if (z == 0)
     {
     document.getElementById("sound").checked = false;
     audio = new Audio('');
     audio2 = new Audio('');    
     }
-}
 
-var x = accessCookie('wallpaper');
-if (x!="") {
-    if (x == '1')
+
+var x = 1;
+var wallpapers = getLocalStorage("wallpaper");
+  if (wallpapers === null) {  // first time
+     x = 1;
+  }
+  else x = wallpapers;
+
+    if (x == 1)
     document.getElementById("body").style.backgroundImage = "url('wallpapers/wood2.jpg')";
-    if (x == '2')
+    if (x == 2)
     document.getElementById("body").style.backgroundImage = "url('wallpapers/wood.jpg')";
-    if (x == '3')
+    if (x == 3)
     document.getElementById("body").style.backgroundImage = "url('wallpapers/greenfelt.jpg')";
-    if (x == '4')
+    if (x == 4)
     document.getElementById("body").style.backgroundImage = "url('wallpapers/redfelt.jpg')";
-}
 }
 </script>
 </body>
